@@ -32,9 +32,8 @@ class logistic_regression:
         
     def predict(self,x):
         return  1/(1+np.exp(-1* np.dot(x,self.w)+self.b))
-      
-      
-      
-      
-      
-      
+    
+    def predict_val(self,x,threshold=0.5):
+        func= np.vectorize(lambda x:1 if x>=threshold else 0)
+        pred=1/(1+np.exp(-1* np.dot(x,self.w)+self.b))
+        return func(pred)

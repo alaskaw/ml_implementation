@@ -37,3 +37,13 @@ class logistic_regression:
         func= np.vectorize(lambda x:1 if x>=threshold else 0)
         pred=1/(1+np.exp(-1* np.dot(x,self.w)+self.b))
         return func(pred)
+    
+    
+    
+ 
+
+
+
+
+
+

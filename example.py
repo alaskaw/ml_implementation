@@ -59,8 +59,29 @@ acc_score= accuracy_score(y_test,pred)
 print('train: auc_score=',auc_score, 'acc_score=' ,acc_score)
 
 
+################################################################
+#knn classifier
+################################################################
+from sklearn.datasets import load_iris
+from sklearn.utils import shuffle
+from sklearn.metrics import accuracy_score
 
+iris = load_iris()
+x, y = shuffle(iris.data, iris.target, random_state=13)
+y=y.reshape(-1,1)
+print(x.shape ,y.shape)
+offset=int(x.shape[0]*0.7)
+x_train=x[:offset] 
+y_train=y[:offset]
+x_test=x[offset:]
+y_test=y[offset:]
 
+clf=knn_classifier()
+clf.train(x_train,y_train)
+sim=clf.calc_dist(x_test)
+pred=clf.predict_label(x_test,sim,k=5)
+acc=accuracy_score(pred,y_test)
+print(acc)
 
 
 

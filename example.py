@@ -33,7 +33,7 @@ print('test: mse_score=',mse_score)
 ################################################################
 from sklearn.datasets import make_classification
 from sklearn.metrics import roc_auc_score,accuracy_score
-x,y=make_classification(n_samples=10000,n_features=100,n_redundant=0, n_informative=5, n_classes=2,n_clusters_per_class=10,random_state=42)
+x,y=make_classification(n_samples=10000,n_features=400,n_redundant=0, n_informative=10, n_classes=2,n_clusters_per_class=5,random_state=42)
 y=y.reshape(-1,1)
 print(x.shape,y.shape)
 x_train=x[:7000]
@@ -42,18 +42,29 @@ x_test=x[7000:]
 y_test=y[7000:]
 
 clf=logistic_regression() 
-clf.fit(x_train,y_train,lr=1e-3,epoches=1000)
+clf.std_fit(x_train)
+x_train=clf.std_transform(x_train)
+clf.fit(x_train,y_train,lr=1e-3,epoches=1000, solver='newton')
 pred=clf.predict(x_train)
 auc_score=roc_auc_score(y_train,pred)
-pred=clf.predict_val(x_train,threshold=0.45)
+pred=clf.predict_val(x_train,threshold=0.5)
 acc_score= accuracy_score(y_train,pred)
 print('train: auc_score=',auc_score, 'acc_score=' ,acc_score)
 
+x_test=clf.std_transform(x_test)
 pred=clf.predict(x_test)
 auc_score=roc_auc_score(y_test,pred)
-pred=clf.predict_val(x_test,threshold=0.45)
+pred=clf.predict_val(x_test,threshold=0.5)
 acc_score= accuracy_score(y_test,pred)
 print('train: auc_score=',auc_score, 'acc_score=' ,acc_score)
+
+
+
+
+
+
+
+
 
 
 

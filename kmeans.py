@@ -53,7 +53,7 @@ class kmeans:
         n_feat=x.shape[1]
         centers=np.zeros((k,n_feat))
         for i,cluster in enumerate(clusters ):
-            ctr=np.mean(cluster,axis=0)
+            ctr=np.mean(x[cluster],axis=0)
             centers[i]=ctr
         return centers
     

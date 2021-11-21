@@ -16,8 +16,33 @@ class svd:
         res=np.dot(np.dot(U,sigma),V.T)
         print(sigma.shape)
         return np.dot(U,sigma)
-      
- 
+    def test_digit(self):
+        from sklearn.datasets import load_digits
+        import matplotlib.pyplot as plt
+        import matplotlib.cm as cmx
+        import matplotlib.colors as colors
+
+        digit=load_digits()
+        x=digit.data
+        y=digit.target
+        x_trans=svd(n_component=2).svd(x)
+        print(x.shape,y.shape,x_trans.shape)
+        x1=x_trans[:,0]
+        x2=x_trans[:,1]
+        cmap=plt.get_cmap('viridis')
+        colors = [cmap(i) for i in np.linspace(0, 1, len(np.unique(y)))]
+        class_distr = []
+        for i, l in enumerate(np.unique(y)):
+            _x1 = x1[y == l]
+            _x2 = x2[y == l]
+            _y = y[y == l]
+            class_distr.append(plt.scatter(_x1, _x2, color=colors[i]))
+        plt.legend(class_distr, y, loc=1)
+        plt.suptitle("PCA Dimensionality Reduction")
+        plt.title("Digit Dataset")
+        plt.xlabel('Principal Component 1')
+        plt.ylabel('Principal Component 2')
+        plt.show()
 
 
 
